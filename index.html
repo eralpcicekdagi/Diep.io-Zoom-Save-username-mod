@@ -1,44 +1,89 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Flamecraft by BryanProGamer</title>
+    <meta name="description" content="Flamecraft : ">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Flamecraft</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Flamecraft</h1>
-        <p></p>
 
-        <p class="view"><a href="https://github.com/BryanProGamer/FlameCraft">View the Project on GitHub <small>BryanProGamer/FlameCraft</small></a></p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/BryanProGamer/Diep.io-Zoom-Save-username-mod">View on GitHub</a>
 
+          <h1 id="project_title">Flamecraft</h1>
+          <h2 id="project_tagline"></h2>
 
-        <ul>
-          <li><a href="https://github.com/BryanProGamer/FlameCraft/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/BryanProGamer/FlameCraft/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/BryanProGamer/FlameCraft">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <p>Welcome to FlameCraft
-Please Signup to Play in server</p>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/BryanProGamer/Diep.io-Zoom-Save-username-mod/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/BryanProGamer/Diep.io-Zoom-Save-username-mod/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
- Player:  password:  Email:   
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a id="code" class="anchor" href="#code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Code</h3>
+
+<p><code>// ==UserScript==
+// @name         Diep.IO Zoom and Save Name Mod
+// @version      1.5
+// @description  If Diep.io is updated , please reload the page
+// @author       magepino123
+// @match        *://diep.io/
+// @run-at       document-start
+// @grant        GM_xmlhttpRequest
+// @connect      diep.io
+// @namespace diep.io
+// ==/UserScript==
+window.stop();
+document.documentElement.innerHTML = null;
+var s = '',
+  doc = '';
+GM_xmlhttpRequest({
+  method: "GET",
+  url: 'http://diep.io/d.js',
+  onload: function(event) {
+    s = event.responseText;
+    s = s.replace(/\(function\((.)\){/i, '(function($1){var zoom=0.25;');
+    s = s.replace(/wheel:function\(\){}/i, 'wheel:function(e){zoom *= Math.pow(.9, e);}');
+    s = s.replace(/(.)=\(\+.\[.&gt;&gt;[1-9]+\]\*19\.0\+ \+(.)\[(.)\+([1-9]+)&gt;&gt;([1-9]+)\]\)\/20\.0;/i, '$1 = (zoom * 19.0 + +$2[$3 + $4 &gt;&gt; $5]) / 20.0;');
+    s = s.replace(/D\.value="";/i, '');
+    GM_xmlhttpRequest({
+      method: "GET",
+      url: 'http://diep.io/',
+      onload: function(event) {
+        doc = event.responseText;
+        doc = doc.replace(/&lt;script src="d\.js" async&gt;&lt;\/script&gt;/i, '');
+        doc = doc.replace(/&lt;\/body&gt;/i, '&lt;script&gt;' + s + '&lt;/script&gt;&lt;script&gt;document.getElementById("textInput").value = localStorage.getItem("_nickname");window.addEventListener("beforeunload", function() {localStorage.setItem("_nickname", document.getElementById("textInput").value);});&lt;/script&gt;&lt;/body&gt;');
+        document.open();
+        document.write(doc);
+        document.close();
+      }
+    });
+  }
+});</code></p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/BryanProGamer">BryanProGamer</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Flamecraft maintained by <a href="https://github.com/BryanProGamer">BryanProGamer</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
     
+
   </body>
 </html>
